@@ -8,6 +8,7 @@
  * goal is to get a list of beers,
  * sortable by ABV, given a username
  */
+
 class Untapper
 {
 
@@ -16,9 +17,9 @@ class Untapper
 
   const API_KEY = '12345';
 
-  public function __construct()
+  public function __construct($username)
   {
-    $this->_username = 'hey_germano'; // @todo get this from the form
+    $this->_username = $username; // @todo get this from the form
     $this->_beers = $this->get_beers(self::API_KEY, $this->_username);
     $this->render_markup($this->_username, $this->_beers, $data = array('label' => 'ABV'));
   }
@@ -73,6 +74,7 @@ class Untapper
 
 }
 
-new Untapper();
+$username = 'hey_germano';
+new Untapper($username);
 
 ?>

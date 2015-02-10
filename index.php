@@ -22,11 +22,13 @@
 	        <div class="row">
 	        	<div class="large-4 medium-4 columns">
 	    		    <p>Enter your username below.</p>
-              <input type="text" placeholder="Username">
-              <input type="submit" class="small round button" value="Go">
+              <form id="search-user">
+                <input type="text" placeholder="Username">
+                <input type="submit" class="small round button" value="Go">
+              </form>
 	    	    </div>
 	        	<div class="large-8 medium-8 columns">
-	            <?php include_once('includes/app.php'); ?>
+              <div id="query-results"></div>
             </div>
 					</div>
       	</div>
@@ -38,6 +40,7 @@
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
+    <script src="js/app.js"></script>
     <script>
       $(document).foundation();
     </script>
