@@ -11,7 +11,7 @@
 
     <div class="row">
       <div class="large-12 columns">
-        <h1>booziest</h1>
+        <h1><a href="/">booziest</a></h1>
       </div>
     </div>
 
