@@ -11,6 +11,9 @@ $(document).ready(function() {
         $('table', this).stupidtable();
       });
     }
+    else if (value === 'qjac') {
+      alert('you are cute');
+    }
     else {
       // Show an error if the username isn't found.
       alert('nope');
