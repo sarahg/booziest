@@ -42,7 +42,7 @@ class Untapper
     // @todo parse the returned object, maybe structure something like this
     $beers = array(
       0 => array('name' => 'Budweiser', 'abv' => '3.2'),
-      1 => array('name' => 'Imperial Hemp', 'abv' => '10.1')
+      1 => array('name' => 'Dangerous Man Imperial Hemp', 'abv' => '10.1')
     );
     return $beers;
   }
@@ -64,9 +64,9 @@ class Untapper
   {
     $output  = '<h3>' . $username . '\'s' . ' beers' . '</h3>';
     $output .= '<table id="beer-results">';
-    $output .= '<thead></thead><td>Name</td><td><a href="#">'. $data['label'] .' ^</a></td><tbody>';
+    $output .= '<thead><th>Name</th><th data-sort="int"><a href="#">'. $data['label'] .'</a></th></thead><tbody>';
     foreach ($beers as $beer) {
-      $output .= '<tr><td>' . $beer['name'] . '</td><td>' . $beer['abv'] . '%</td></tr>';
+      $output .= '<tr><td>' . $beer['name'] . '</td><td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td></tr>';
     }
     $output .= '</tbody></table>';
     echo $output;
