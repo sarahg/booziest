@@ -9,21 +9,43 @@
  * sortable by ABV, given a username
  */
 
+include('keys.inc');
+
 class Untapper
 {
 
   private $username;
   private $beers;
 
-  const API_KEY = '12345';
-
   public function __construct($username)
   {
     $this->_username = $username; // @todo get this from the form
-    $this->_beers = $this->get_beers(self::API_KEY, $this->_username);
+    $this->_beers = $this->get_beers($this->_username);
     $this->render_markup($this->_username, $this->_beers, $data = array('label' => 'ABV'));
   }
 
+
+  /**
+   * Format the list of beers from Untappd.
+   *
+   * @param $username
+   *    An untappd username
+   *
+   * @return $beers
+   *    Array of the user's beers, ordered by ABV.
+   */
+  public function get_beers($username)
+  {
+    $response = self::fetch_beers($username);
+    print_r($response);
+
+    // @todo parse the returned object, maybe structure something like this
+    $beers = array(
+      //0 => array('name' => 'Budweiser', 'abv' => '3.2'),
+      //1 => array('name' => 'Dangerous Man Imperial Hemp', 'abv' => '10.1')
+    );
+    return $beers;
+  }
 
   /**
    * Retrieve a list of beers from Untappd.
@@ -36,15 +58,12 @@ class Untapper
    * @return $beers
    *    Array of the user's beers, sorted by ABV.
    */
-  public function get_beers($key, $username)
+  protected function fetch_beers($username)
   {
-    // @todo after getting API access, probably split off a function to connect
-    // @todo parse the returned object, maybe structure something like this
-    $beers = array(
-      0 => array('name' => 'Budweiser', 'abv' => '3.2'),
-      1 => array('name' => 'Dangerous Man Imperial Hemp', 'abv' => '10.1')
-    );
-    return $beers;
+    include('UntappdPHP/lib/untappdPHP.php');
+    $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, 'http://booziest.local/');
+    $info = $ut->get('/user/info/' . $username);
+    return $info;
   }
 
 
@@ -74,7 +93,7 @@ class Untapper
 
 }
 
-$username = 'hey_germano';
+$username = 'heygermano';
 new Untapper($username);
 
 ?>
