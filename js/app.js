@@ -1,23 +1,13 @@
 $(document).ready(function() {
   'use strict';
 
-  // Just for illustration, show the results
-  // table when the form is submitted.
   $('#search-user').submit(function() {
     var value = $('input[type=text]', this).val().trim();
-    if (value === 'hey_germano') {
-      $('#query-results').load('includes/app.php', function() {
-        // Load the Stupid Table plugin.
-        $('table', this).stupidtable();
-      });
-    }
-    else if (value === 'qjac') {
-      alert('you are cute');
-    }
-    else {
-      // Show an error if the username isn't found.
-      alert('nope');
-    }
+
+    $('#query-results').load('includes/app.php', function() {
+      // Load the Stupid Table plugin.
+      $('table', this).stupidtable();
+    });
 
     return false;
   });
