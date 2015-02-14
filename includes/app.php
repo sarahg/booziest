@@ -118,9 +118,11 @@ class Untapper
     $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
     foreach ($beers as $beer) {
       $output .= '<tr>';
-      $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too
+      $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too // @todo link to brewery site
+      // @todo add state
       $output .= '<td>' . $beer['name'] . '</td>';
       $output .= '<td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td>';
+      // @todo add style
       $output .= '<td>' . $beer['rating'] . '</td>';
       $output .= '</tr>';
     }

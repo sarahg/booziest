@@ -1,4 +1,7 @@
 <!doctype html>
+
+<!-- @todo add favicon -->
+
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -45,3 +48,6 @@
     </script>
   </body>
 </html>
+
+<!-- @todo add analytics -->
+<!-- @todo add copyright/link/github -->
