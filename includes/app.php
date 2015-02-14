@@ -1,12 +1,6 @@
 <?php
 /**
  * @file app.php
- *
- * just starting to test out Untapped
- * API options
- *
- * goal is to get a list of beers,
- * sortable by ABV, given a username
  */
 
 include('keys.inc');
@@ -16,12 +10,14 @@ class Untapper
 
   private $username;
   private $beers;
+  private $table;
 
   public function __construct($username)
   {
     $this->_username = $username;
     $this->_beers = $this->get_beers($this->_username);
-    $this->render_markup($this->_username, $this->_beers, $data = array('label' => 'ABV'));
+    $this->_table = $this->render_table($this->_username, $this->_beers, $data = array('label' => 'ABV'));
+    $this->render($this->_table);
   }
 
 
@@ -97,7 +93,7 @@ class Untapper
    *
    * @return @void
    */
-  protected function render_markup($username, $beers, $data)
+  protected function render_table($username, $beers, $data)
   {
     $table_headers = '';
     $columns = array(
@@ -113,7 +109,7 @@ class Untapper
     $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>'; // @todo more user info
     // @todo show a link to re-enable the form for searching another username
     // @todo dynamic result count. don't show table if no results.
-    $output .= '<p>Showing most recent 50 beers. <a href="#show-100">Show 100</a>.</p>'; // @todo hookup "show 100"
+    $output .= '<p>Showing most recent 50 beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
     foreach ($beers as $beer) {
@@ -127,7 +123,8 @@ class Untapper
       $output .= '</tr>';
     }
     $output .= '</tbody></table>';
-    echo $output;
+
+    return $output;
   }
 
 
@@ -137,6 +134,21 @@ class Untapper
   protected function compare_pals()
   {
 
+  }
+
+
+  /**
+   * Pull together all the components and echo the output.
+   *
+   * @param $table
+   *   String of HTML for the main results table.
+   *
+   * @return @void
+   */
+  protected function render($table)
+  {
+    $output = $table;
+    echo $output;
   }
 
 }
