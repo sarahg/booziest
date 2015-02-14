@@ -40,23 +40,30 @@ class Untapper
     $beers = array();
     $response = self::fetch_beers($username);
 
+    // @todo return different error if API limit hit (see header)
+    // @todo better error message. something funny.
+    // @todo clear error if user doesn't exist.
     if ($response->meta->code !== 200) {
       echo 'Error code ' . $response->meta->code;
       return;
     }
 
-    foreach ($response->response->beers->items as $key => $beer) {
-      $beers[] = array('name' => $beer->beer->beer_name, 'abv' => $beer->beer->beer_abv);
+    foreach ($response->response->beers->items as $beer) {
+      $beers[] = array(
+        'brewery' => $beer->brewery->brewery_name,
+        'name' => $beer->beer->beer_name,
+        'abv' => $beer->beer->beer_abv,
+        'rating' => $beer->rating_score
+      );
     }
 
+    // Sort by ABV, high to low.
     usort($beers, function($a, $b) {
       return $b['abv'] > $a['abv'] ? 1 : -1;
     });
 
     return $beers;
   }
-
-
 
 
   /**
@@ -74,7 +81,7 @@ class Untapper
   {
     include('UntappdPHP/lib/untappdPHP.php');
     $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
-    $info = $ut->get('/user/beers/' . $username);
+    $info = $ut->get('/user/beers/' . $username . '?limit=50');
     return $info;
   }
 
@@ -93,11 +100,29 @@ class Untapper
    */
   protected function render_markup($username, $beers, $data)
   {
-    $output  = '<h3>' . $username . '\'s' . ' recent boozy beers' . '</h3>';
+    $table_headers = '';
+    $columns = array(
+      'Brewery' => 'string',
+      'Name' => 'string',
+      'ABV' => 'float',
+      'Rating' => 'float'
+    );
+    foreach ($columns as $name => $dataType) {
+      $table_headers .= '<th data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
+    }
+
+    $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>'; // @todo more user info
+    // @todo show a link to re-enable the form for searching another username
+    $output .= '<p>Showing most recent 50 beers. <a href="#show-100">Show 100</a>.</p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
-    $output .= '<thead><th>Name</th><th data-sort="int"><a href="#">'. $data['label'] .'</a></th></thead><tbody>';
+    $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
     foreach ($beers as $beer) {
-      $output .= '<tr><td>' . $beer['name'] . '</td><td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td></tr>';
+      $output .= '<tr>';
+      $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too
+      $output .= '<td>' . $beer['name'] . '</td>';
+      $output .= '<td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td>';
+      $output .= '<td>' . $beer['rating'] . '</td>';
+      $output .= '</tr>';
     }
     $output .= '</tbody></table>';
     echo $output;

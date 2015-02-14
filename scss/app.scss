@@ -7,16 +7,35 @@
     height: 147px;
     width: 370px;
     position: relative;
-    top: -80px;
+    top: -70px;
   }
 }
 
 h1 {
   margin-bottom: 0;
 }
+h2 {
+  font-size: 1.2em;
+  color: $body-font-color;
+  padding-top: 1.2em;
+}
 
+.panel {
+  margin-bottom: .5em;
+}
+
+#username {
+  width: 75%;
+}
 #loading {
-  padding: 1.8em 0 0 5em;
+  padding: 0 0 0 2em;
+}
+
+#untappd-logo {
+  opacity: .5;
+}
+#untappd-logo:hover {
+  opacity: 1;
 }
 
 // Or selectively include components

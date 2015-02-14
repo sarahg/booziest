@@ -6,7 +6,7 @@ $(document).ready(function() {
     var username = $('input#username').val().trim();
     var $results = $('#query-results');
 
-    $results.html('<img src="img/loadingBeer.gif" id="loading" alt="Loading..." />');
+    $('.search-form').html('<img src="img/loadingBeer.gif" id="loading" alt="Loading..." />');
 
     $.ajax({
       type: 'POST',
@@ -14,8 +14,10 @@ $(document).ready(function() {
       data: 'username=' + username,
       cache: false,
       success: function(result) {
-        $results.html(result);
-        $('table').stupidtable();
+        $('.search-form').fadeOut('fast', function() {
+          $results.html(result);
+          $('table').stupidtable();
+        });
       }
     });
 

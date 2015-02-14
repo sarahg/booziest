@@ -12,7 +12,8 @@
 
     <div class="row">
       <div class="large-12 columns">
-        <h1><a href="/">Booziest</a></h1>
+        <h1 class="left"><a href="/">Booziest</a></h1>
+        <h2 class="right">Your Untappd checkins, sorted by ABV</h2>
       </div>
     </div>
 
@@ -20,20 +21,17 @@
       <div class="large-12 columns">
         <div class="panel radius">
 	        <div class="row">
-	        	<div class="large-4 medium-4 columns">
-              <p><strong>Your Untappd beers, sorted by ABV</strong></p>
+	        	<div class="large-5 medium-5 columns search-form">
               <form id="search-user">
-                <input id="username" type="text" placeholder="Enter your Untappd username">
-                <input type="submit" class="small round button" value="Go">
+                <input class="left" id="username" type="text" placeholder="Enter your Untappd username">
+                <input type="submit" class="right small round button" value="Go">
               </form>
 	    	    </div>
-	        	<div class="large-8 medium-8 columns">
-              <div id="query-results"></div>
-            </div>
+            <div class="large-12 medium-12 columns" id="query-results"></div>
 					</div>
       	</div>
 
-        <img src="img/pbu_40_black.png">
+        <a href="http://untappd.com"><img id="untappd-logo" height="19" width="80" src="img/pbu_40_black.png" alt="Powered by Untappd"></a>
         <div id="dude-wrapper" class="right"></div>
       </div>
     </div>
