@@ -23,7 +23,7 @@
 	        	<div class="large-4 medium-4 columns">
               <p><strong>Your Untappd beers, sorted by ABV</strong></p>
               <form id="search-user">
-                <input type="text" placeholder="Enter your Untappd username">
+                <input id="username" type="text" placeholder="Enter your Untappd username">
                 <input type="submit" class="small round button" value="Go">
               </form>
 	    	    </div>
