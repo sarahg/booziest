@@ -1,7 +1,5 @@
+<?php date_default_timezone_set('UTC'); ?>
 <!doctype html>
-
-<!-- @todo add favicon -->
-
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
@@ -33,8 +31,11 @@
             <div class="large-12 medium-12 columns" id="query-results"></div>
 					</div>
       	</div>
-
-        <a href="http://untappd.com"><img id="untappd-logo" height="19" width="80" src="img/pbu_40_black.png" alt="Powered by Untappd"></a>
+        <p>
+          <a href="http://untappd.com"><img id="untappd-logo" height="19" width="80" src="img/pbu_40_black.png" alt="Powered by Untappd"></a>
+          <small class="copyright">Copyright &copy; <?php echo date('Y'); ?> <a href="http://sarahgerman.com">Sarah German</a>&nbsp;
+          <!--View source code on <a href="#">Github</a>.--></small>
+        </p>
         <div id="dude-wrapper" class="right"></div>
       </div>
     </div>
@@ -49,5 +50,12 @@
   </body>
 </html>
 
-<!-- @todo add analytics -->
-<!-- @todo add copyright/link/github -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59765031-1', 'auto');
+  ga('send', 'pageview');
+</script>
