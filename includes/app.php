@@ -9,7 +9,6 @@
  * sortable by ABV, given a username
  */
 
-include('../krumo/class.krumo.php');
 include('keys.inc');
 
 class Untapper
