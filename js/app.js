@@ -15,7 +15,7 @@ $(document).ready(function() {
       cache: false,
       success: function(result) {
         $results.html(result);
-        $('table', this).stupidtable();
+        $('table').stupidtable();
       }
     });
 
