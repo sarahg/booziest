@@ -112,6 +112,7 @@ class Untapper
 
     $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>'; // @todo more user info
     // @todo show a link to re-enable the form for searching another username
+    // @todo dynamic result count. don't show table if no results.
     $output .= '<p>Showing most recent 50 beers. <a href="#show-100">Show 100</a>.</p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
@@ -127,6 +128,15 @@ class Untapper
     }
     $output .= '</tbody></table>';
     echo $output;
+  }
+
+
+  /**
+   * @todo make a way to show the users friends and show their booziest beers.
+   */
+  protected function compare_pals()
+  {
+
   }
 
 }

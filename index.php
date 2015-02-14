@@ -39,6 +39,7 @@
         <div id="dude-wrapper" class="right"></div>
       </div>
     </div>
+    <!-- @todo maybe add social share crap -->
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>

@@ -7,13 +7,14 @@
     height: 147px;
     width: 370px;
     position: relative;
-    top: -70px;
+    top: -115px;
   }
 }
 
 h1 {
   margin-bottom: 0;
 }
+// @todo handle this h2 better at med/small widths
 h2 {
   font-size: 1.2em;
   color: $body-font-color;
