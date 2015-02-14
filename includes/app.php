@@ -9,6 +9,7 @@
  * sortable by ABV, given a username
  */
 
+include('../krumo/class.krumo.php');
 include('keys.inc');
 
 class Untapper
@@ -19,7 +20,7 @@ class Untapper
 
   public function __construct($username)
   {
-    $this->_username = $username; // @todo get this from the form
+    $this->_username = $username;
     $this->_beers = $this->get_beers($this->_username);
     $this->render_markup($this->_username, $this->_beers, $data = array('label' => 'ABV'));
   }
@@ -36,16 +37,27 @@ class Untapper
    */
   public function get_beers($username)
   {
+    $beers = array();
     $response = self::fetch_beers($username);
-    print_r($response);
 
-    // @todo parse the returned object, maybe structure something like this
-    $beers = array(
-      //0 => array('name' => 'Budweiser', 'abv' => '3.2'),
-      //1 => array('name' => 'Dangerous Man Imperial Hemp', 'abv' => '10.1')
-    );
+    if ($response->meta->code !== 200) {
+      echo 'Error code ' . $response->meta->code;
+      return;
+    }
+
+    foreach ($response->response->beers->items as $key => $beer) {
+      $beers[] = array('name' => $beer->beer->beer_name, 'abv' => $beer->beer->beer_abv);
+    }
+
+    usort($beers, function($a, $b) {
+      return $b['abv'] > $a['abv'] ? 1 : -1;
+    });
+
     return $beers;
   }
+
+
+
 
   /**
    * Retrieve a list of beers from Untappd.
@@ -61,8 +73,8 @@ class Untapper
   protected function fetch_beers($username)
   {
     include('UntappdPHP/lib/untappdPHP.php');
-    $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, 'http://booziest.local/');
-    $info = $ut->get('/user/info/' . $username);
+    $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
+    $info = $ut->get('/user/beers/' . $username);
     return $info;
   }
 
@@ -81,7 +93,7 @@ class Untapper
    */
   protected function render_markup($username, $beers, $data)
   {
-    $output  = '<h3>' . $username . '\'s' . ' beers' . '</h3>';
+    $output  = '<h3>' . $username . '\'s' . ' recent boozy beers' . '</h3>';
     $output .= '<table id="beer-results">';
     $output .= '<thead><th>Name</th><th data-sort="int"><a href="#">'. $data['label'] .'</a></th></thead><tbody>';
     foreach ($beers as $beer) {

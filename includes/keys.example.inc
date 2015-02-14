@@ -7,3 +7,4 @@
 
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
+define('BASE_URL', '');
