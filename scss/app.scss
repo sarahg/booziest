@@ -14,11 +14,16 @@
 h1 {
   margin-bottom: 0;
 }
-// @todo handle this h2 better at med/small widths
 h2 {
   font-size: 1.2em;
   color: $body-font-color;
-  padding-top: 1.2em;
+  padding-top: 0;
+  @media #{$small-only} {
+    font-size: 1em;
+  }
+  @media #{$large-up} {
+    padding-top: 1.2em;
+  }
 }
 
 .panel {

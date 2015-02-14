@@ -12,9 +12,11 @@
   <body>
 
     <div class="row">
-      <div class="large-12 columns">
+      <div class="large-6 medium-12 columns">
         <h1 class="left"><a href="/">Booziest</a></h1>
-        <h2 class="right">Your Untappd checkins, sorted by ABV</h2>
+      </div>
+      <div class="large-6 medium-12 columns" class="right">
+        <h2>Your Untappd checkins, sorted by ABV</h2>
       </div>
     </div>
 
