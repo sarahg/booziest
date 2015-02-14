@@ -93,7 +93,7 @@ class Untapper
 
 }
 
-$username = 'heygermano';
+$username = $_POST['username'];
 new Untapper($username);
 
 ?>
