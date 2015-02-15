@@ -18,10 +18,13 @@ $(document).ready(function() {
         // @todo don't hide the form if no results were found
         $('.search-form').fadeOut('fast', function() {
           $results.html(result);
+
           var table = $('table').stupidtable();
           table.bind('aftertablesort', function (event, data) {
             showSortIcon();
           });
+
+          showSortIcon();
 
           // @todo show a link to re-enable the form for searching another username
         });

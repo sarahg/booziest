@@ -107,7 +107,7 @@ class Untapper
   protected function render_table($beers)
   {
     $filteredBeers = self::format_beers($beers);
-    $table_headers = $output = '';
+    $table_headers = $output = $icon = '';
 
     if (empty($filteredBeers)) {
       $output = '<p>Is the username correct?
@@ -127,12 +127,13 @@ class Untapper
     foreach ($columns as $name => $dataType) {
       $classes = strtolower($name);
       if ($name == 'ABV') {
-        $classes .= ' sorting-asc';
+        $classes .= ' sorting-desc';
+        $icon = '<i class="fa fa-sort-desc"></i>';
       }
       if (empty($name)) {
         $classes .= 'image';
       }
-      $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
+      $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a>'. $icon .'</th>';
     }
 
     $output .= '<p>Showing most recent '. count($filteredBeers) .' beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
