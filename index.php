@@ -7,6 +7,7 @@
     <title>Booziest</title>
     <link rel="stylesheet" href="css/app.min.css" />
     <link href='http://fonts.googleapis.com/css?family=Rubik+One' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css" />
   </head>
   <body>
 

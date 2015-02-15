@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          'css/app.min.css': ['bower_components/fontawesome/css/font-awesome.min.css', 'css/app.css']
+          'css/app.min.css': ['css/app.css']
         }
       }
     },
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
             'bower_components/modernizr/modernizr.js',
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/foundation/js/foundation.min.js',
-            'vendor/stupidtable.min.js',
+            'js/vendor/stupidtable.min.js',
             'js/app.js'
           ]
         }
