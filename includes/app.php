@@ -23,11 +23,6 @@ class Untapper
     if (!empty($this->_beers)) {
       $this->_table = $this->render_table($this->_beers);
     }
-    else {
-      // If not, be helpful.
-      $this->_table = '<p>No beers found. Is the username correct?
-        <a href="https://www.google.com/maps/search/bars+near+current+location">Do you need to go drinking</a>?</p>';
-    }
 
     // Assemble the pieces and echo HTML.
     $this->render($this->_user, $this->_table);
@@ -45,6 +40,10 @@ class Untapper
    */
   public function format_beers($beers)
   {
+    if (empty($beers->response->beers->items)) {
+      return;
+    }
+
     foreach ($beers->response->beers->items as $beer) {
       $filteredBeers[] = array(
         'brewery' => $beer->brewery->brewery_name,
@@ -104,8 +103,14 @@ class Untapper
   protected function render_table($beers)
   {
     $filteredBeers = self::format_beers($beers);
-
     $table_headers = $output = '';
+
+    if (empty($filteredBeers)) {
+      $output = '<p>Is the username correct?
+        <a href="https://www.google.com/maps/search/bars+near+current+location">Do you need to go drinking</a>?</p>';
+      return $output;
+    }
+
     $columns = array(
       'Brewery' => 'string',
       'Name' => 'string',
@@ -157,9 +162,17 @@ class Untapper
    */
   protected function render($user, $table)
   {
-    $output  = '<div class="user-photo" style="background-image: url('. $user->response->user->user_avatar .')"></div>';
-    $output .= '<h3 class="user">' . $user->response->user->user_name . '\'s' . ' booziest beers' . '</h3>';
+    $output = '';
+    if (!empty($user->response->user)) {
+      $output .= '<div class="user-photo" style="background-image: url('. $user->response->user->user_avatar .')"></div>';
+      $output .= '<h3 class="user">' . $user->response->user->user_name . '\'s' . ' booziest beers' . '</h3>';
+    }
+    else {
+      $output .= '<h3 class="no-user">No beers found.</h3>';
+    }
+
     $output .= $table;
+
     echo $output;
   }
 
