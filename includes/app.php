@@ -49,7 +49,11 @@ class Untapper
         'brewery' => $beer->brewery->brewery_name,
         'name' => $beer->beer->beer_name,
         'abv' => $beer->beer->beer_abv,
-        'rating' => $beer->rating_score
+        'style' => $beer->beer->beer_style,
+        'rating' => $beer->rating_score,
+        'link' => $beer->brewery->contact->url,
+        'logo' => $beer->brewery->brewery_label,
+        'state' => $beer->brewery->location->brewery_state
       );
     }
 
@@ -112,9 +116,12 @@ class Untapper
     }
 
     $columns = array(
+      '' => '',
       'Brewery' => 'string',
       'Name' => 'string',
+      'State' => 'string',
       'ABV' => 'float',
+      'Style' => 'string',
       'Rating' => 'float'
     );
     foreach ($columns as $name => $dataType) {
@@ -130,11 +137,12 @@ class Untapper
     $output .= '<thead>'. $table_headers .'</thead><tbody>';
     foreach ($filteredBeers as $beer) {
       $output .= '<tr>';
-      $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too // @todo link to brewery site
-      // @todo add state
+      $output .= '<td><a href="'. $beer['link'] .'"><img height="50" width="50" src="'. $beer['logo'] .'"></a></td>';
+      $output .= '<td><a href="'. $beer['link'] .'">'. $beer['brewery'] .'</a></td>';
       $output .= '<td>' . $beer['name'] . '</td>';
+      $output .= '<td>' . $beer['state'] . '</td>';
       $output .= '<td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td>';
-      // @todo add style
+      $output .= '<td>' . $beer['style'] . '</td>';
       $output .= '<td>' . $beer['rating'] . '</td>';
       $output .= '</tr>';
     }
