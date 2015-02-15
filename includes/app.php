@@ -118,12 +118,16 @@ class Untapper
       'Rating' => 'float'
     );
     foreach ($columns as $name => $dataType) {
-      $table_headers .= '<th data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
+      $classes = strtolower($name);
+      if ($name == 'ABV') {
+        $classes .= ' sorting-asc';
+      }
+      $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
     }
 
     $output .= '<p>Showing most recent '. count($filteredBeers) .' beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
-    $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
+    $output .= '<thead>'. $table_headers .'</thead><tbody>';
     foreach ($filteredBeers as $beer) {
       $output .= '<tr>';
       $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too // @todo link to brewery site
