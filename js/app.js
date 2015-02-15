@@ -14,6 +14,7 @@ $(document).ready(function() {
       data: 'username=' + username,
       cache: false,
       success: function(result) {
+        // @todo don't hide the form if no results were found
         $('.search-form').fadeOut('fast', function() {
           $results.html(result);
           $('table').stupidtable();
