@@ -5,10 +5,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booziest</title>
-    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/app.min.css" />
     <link href='http://fonts.googleapis.com/css?family=Rubik+One' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css" />
-    <script src="js/vendor/modernizr.js"></script>
   </head>
   <body>
 
@@ -44,11 +42,7 @@
     </div>
     <!-- @todo maybe add social share crap -->
 
-    <!-- @todo gruntify scripts/CSS -->
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
-    <script src="js/vendor/stupidtable.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.min.js"></script>
     <script>
       $(document).foundation();
     </script>
