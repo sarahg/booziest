@@ -47,8 +47,23 @@ h2 {
 .copyright {
   margin-left: 20px;
 }
+
 p a {
   font-weight: bold;
+}
+.user-photo {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+h3.user {
+  display: inline-block;
+  position: relative;
+  top: -40px;
+  left: 20px;
 }
 
 // Or selectively include components

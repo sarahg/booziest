@@ -8,25 +8,29 @@ include('keys.inc');
 class Untapper
 {
 
-  private $username;
+  private $user;
   private $beers;
   private $table;
 
   public function __construct($username)
   {
-    $this->_username = $username;
+    // Given a username, look up their user info and beers.
+    $response = self::fetch_untappd_info($username);
+    $this->_user = $response['user'];
+    $this->_beers = $response['beers'];
 
-    $this->_beers = $this->get_beers($this->_username);
-
+    // If they've got beers, show em in a table.
     if (!empty($this->_beers)) {
       $this->_table = $this->render_table($this->_beers);
     }
     else {
+      // If not, be helpful.
       $this->_table = '<p>No beers found. Is the username correct?
         <a href="https://www.google.com/maps/search/bars+near+current+location">Do you need to go drinking</a>?</p>';
     }
 
-    $this->render($this->_username, $this->_table);
+    // Assemble the pieces and echo HTML.
+    $this->render($this->_user, $this->_table);
   }
 
 
@@ -39,21 +43,10 @@ class Untapper
    * @return $beers
    *    Array of the user's beers, ordered by ABV.
    */
-  public function get_beers($username)
+  public function format_beers($beers)
   {
-    $beers = array();
-    $response = self::fetch_beers($username);
-
-    // @todo return different error if API limit hit (see header)
-    // or maybe could it email me? that'd be slick
-    if ($response->meta->code !== 200) {
-      return;
-    }
-
-    //krumo($response->response->beers->items);
-
-    foreach ($response->response->beers->items as $beer) {
-      $beers[] = array(
+    foreach ($beers->response->beers->items as $beer) {
+      $filteredBeers[] = array(
         'brewery' => $beer->brewery->brewery_name,
         'name' => $beer->beer->beer_name,
         'abv' => $beer->beer->beer_abv,
@@ -62,48 +55,56 @@ class Untapper
     }
 
     // Sort by ABV, high to low.
-    usort($beers, function($a, $b) {
+    usort($filteredBeers, function($a, $b) {
       return $b['abv'] > $a['abv'] ? 1 : -1;
     });
 
-    return $beers;
+    return $filteredBeers;
   }
 
 
   /**
    * Retrieve a list of beers from Untappd.
    *
-   * @param $key
-   *    API key for Untapped
    * @param $username
    *    An untappd username
    *
    * @return $beers
    *    Array of the user's beers, sorted by ABV.
    */
-  protected function fetch_beers($username)
+  protected function fetch_untappd_info($username)
   {
     include('UntappdPHP/lib/untappdPHP.php');
     $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
-    $info = $ut->get('/user/beers/' . $username . '?limit=50');
+
+    $beers = $ut->get('/user/beers/' . $username . '?limit=50');
+    $user = $ut->get('/user/info/' . $username);
+
+    $info = array('beers' => $beers, 'user' => $user);
+
+    // @todo return different error if API limit hit (see header)
+    // or maybe could it email me? that'd be slick
+    /*if ($response['beers']->meta->code !== 200) {
+      return;
+    }*/
+
     return $info;
   }
 
 
   /**
-   * Return HTML for the page.
+   * Return HTML for the table.
    *
-   * @param $username
-   *    The user's... name
    * @param $beers
    *    List of beers from the API call.
-   * @param $data
-   *    Metadata about the query (label etc).
    *
-   * @return @void
+   * @return $output
+   *    String of HTML.
    */
   protected function render_table($beers)
   {
+    $filteredBeers = self::format_beers($beers);
+
     $table_headers = $output = '';
     $columns = array(
       'Brewery' => 'string',
@@ -119,7 +120,7 @@ class Untapper
     $output .= '<p>Showing most recent 50 beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
-    foreach ($beers as $beer) {
+    foreach ($filteredBeers as $beer) {
       $output .= '<tr>';
       $output .= '<td>' . $beer['brewery'] . '</td>'; // @todo show images too // @todo link to brewery site
       // @todo add state
@@ -147,17 +148,17 @@ class Untapper
   /**
    * Pull together all the components and echo the output.
    *
-   * @param $username
-   *   String - The queried username.
+   * @param $user
+   *   Object. The queried Untappd user.
    * @param $table
    *   String of HTML for the main results table.
    *
    * @return @void
    */
-  protected function render($username, $table)
+  protected function render($user, $table)
   {
-    $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>';
-    $output .= ''; // @todo get user photo, maybe other stuff
+    $output  = '<div class="user-photo" style="background-image: url('. $user->response->user->user_avatar .')"></div>';
+    $output .= '<h3 class="user">' . $user->response->user->user_name . '\'s' . ' booziest beers' . '</h3>';
     $output .= $table;
     echo $output;
   }

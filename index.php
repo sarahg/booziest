@@ -43,6 +43,7 @@
     </div>
     <!-- @todo maybe add social share crap -->
 
+    <!-- @todo gruntify scripts/CSS -->
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
     <script src="js/vendor/stupidtable.min.js"></script>
