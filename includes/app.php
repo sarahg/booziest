@@ -121,8 +121,7 @@ class Untapper
       $table_headers .= '<th data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
     }
 
-    // @todo dynamic result count. don't show table if no results.
-    $output .= '<p>Showing most recent 50 beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
+    $output .= '<p>Showing most recent '. count($filteredBeers) .' beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>'; // @todo add an arrow icon on the sorted column
     foreach ($filteredBeers as $beer) {
