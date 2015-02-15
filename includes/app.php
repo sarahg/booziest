@@ -193,6 +193,7 @@ class Untapper
 
 }
 
+// @todo allow $_GET for sharing links to result page
 $username = $_POST['username'];
 new Untapper($username);
 
