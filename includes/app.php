@@ -129,6 +129,9 @@ class Untapper
       if ($name == 'ABV') {
         $classes .= ' sorting-asc';
       }
+      if (empty($name)) {
+        $classes .= 'image';
+      }
       $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
     }
 
@@ -137,13 +140,13 @@ class Untapper
     $output .= '<thead>'. $table_headers .'</thead><tbody>';
     foreach ($filteredBeers as $beer) {
       $output .= '<tr>';
-      $output .= '<td><a href="'. $beer['link'] .'"><img height="50" width="50" src="'. $beer['logo'] .'"></a></td>';
-      $output .= '<td><a href="'. $beer['link'] .'">'. $beer['brewery'] .'</a></td>';
-      $output .= '<td>' . $beer['name'] . '</td>';
-      $output .= '<td>' . $beer['state'] . '</td>';
-      $output .= '<td data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td>';
-      $output .= '<td>' . $beer['style'] . '</td>';
-      $output .= '<td>' . $beer['rating'] . '</td>';
+      $output .= '<td class="image"><a href="'. $beer['link'] .'"><img height="50" width="50" src="'. $beer['logo'] .'"></a></td>';
+      $output .= '<td class="brewery"><a href="'. $beer['link'] .'">'. $beer['brewery'] .'</a></td>';
+      $output .= '<td class="name">' . $beer['name'] . '</td>';
+      $output .= '<td class="state">' . $beer['state'] . '</td>';
+      $output .= '<td class="abv" data-sort-value="'. $beer['abv'] .'">' . $beer['abv'] . '%</td>';
+      $output .= '<td class="style">' . $beer['style'] . '</td>';
+      $output .= '<td class="rating">' . $beer['rating'] . '</td>';
       $output .= '</tr>';
     }
     $output .= '</tbody></table>';

@@ -60,16 +60,29 @@ p a {
   display: inline-block;
 }
 h3.user {
-  display: inline-block;
-  position: relative;
-  top: -40px;
-  left: 20px;
+  @media #{$large-up} {
+    display: inline-block;
+    position: relative;
+    top: -40px;
+    left: 20px;
+  }
 }
 
 .fa {
   position: relative;
   left: 5px;
   top: -3px;
+}
+
+#beer-results {
+  @media #{$small-only} {
+    .image,
+    .state,
+    .style,
+    .rating {
+      display: none;
+    }
+  }
 }
 
 // Or selectively include components
