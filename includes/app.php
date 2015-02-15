@@ -110,8 +110,10 @@ class Untapper
     $table_headers = $output = $icon = '';
 
     if (empty($filteredBeers)) {
-      $output = '<p>Is the username correct?
-        <a href="https://www.google.com/maps/search/bars+near+current+location">Do you need to go drinking</a>?</p>';
+      $output = '<ul>
+          <li><a href="https://www.google.com/maps/search/bars+near+current+location">Go drinking</a>.</li>
+          <li><a href="/">Search again</a>.</li>
+        </ul>';
       return $output;
     }
 
