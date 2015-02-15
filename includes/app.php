@@ -15,9 +15,18 @@ class Untapper
   public function __construct($username)
   {
     $this->_username = $username;
+
     $this->_beers = $this->get_beers($this->_username);
-    $this->_table = $this->render_table($this->_username, $this->_beers, $data = array('label' => 'ABV'));
-    $this->render($this->_table);
+
+    if (!empty($this->_beers)) {
+      $this->_table = $this->render_table($this->_beers);
+    }
+    else {
+      $this->_table = '<p>No beers found. Is the username correct?
+        <a href="https://www.google.com/maps/search/bars+near+current+location">Do you need to go drinking</a>?</p>';
+    }
+
+    $this->render($this->_username, $this->_table);
   }
 
 
@@ -36,12 +45,12 @@ class Untapper
     $response = self::fetch_beers($username);
 
     // @todo return different error if API limit hit (see header)
-    // @todo better error message. something funny.
-    // @todo clear error if user doesn't exist.
+    // or maybe could it email me? that'd be slick
     if ($response->meta->code !== 200) {
-      echo 'Error code ' . $response->meta->code;
       return;
     }
+
+    //krumo($response->response->beers->items);
 
     foreach ($response->response->beers->items as $beer) {
       $beers[] = array(
@@ -93,9 +102,9 @@ class Untapper
    *
    * @return @void
    */
-  protected function render_table($username, $beers, $data)
+  protected function render_table($beers)
   {
-    $table_headers = '';
+    $table_headers = $output = '';
     $columns = array(
       'Brewery' => 'string',
       'Name' => 'string',
@@ -106,8 +115,6 @@ class Untapper
       $table_headers .= '<th data-sort="'. $dataType .'"><a href="#">'. $name .'</a></th>';
     }
 
-    $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>'; // @todo more user info
-    // @todo show a link to re-enable the form for searching another username
     // @todo dynamic result count. don't show table if no results.
     $output .= '<p>Showing most recent 50 beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
@@ -140,14 +147,18 @@ class Untapper
   /**
    * Pull together all the components and echo the output.
    *
+   * @param $username
+   *   String - The queried username.
    * @param $table
    *   String of HTML for the main results table.
    *
    * @return @void
    */
-  protected function render($table)
+  protected function render($username, $table)
   {
-    $output = $table;
+    $output  = '<h3>' . $username . '\'s' . ' booziest beers' . '</h3>';
+    $output .= ''; // @todo get user photo, maybe other stuff
+    $output .= $table;
     echo $output;
   }
 

@@ -17,6 +17,8 @@ $(document).ready(function() {
         $('.search-form').fadeOut('fast', function() {
           $results.html(result);
           $('table').stupidtable();
+
+          // @todo show a link to re-enable the form for searching another username
         });
       }
     });
