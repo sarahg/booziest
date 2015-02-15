@@ -26,20 +26,23 @@ $(document).ready(function() {
 
           showSortIcon();
 
-          // @todo show a link to re-enable the form for searching another username
+          $('#show-pals').click(function() {
+            $('#user-pals').slideToggle('slow');
+          });
+
         });
       }
     });
 
     return false;
+
   });
 
-    // Show the sort up/down arrows when the table sorts.
-    var showSortIcon = function() {
-      $('th i').remove();
-      $('.sorting-asc').append('<i class="fa fa-sort-asc"></i>');
-      $('.sorting-desc').append('<i class="fa fa-sort-desc"></i>');
-    };
-
+  // Show the sort up/down arrows when the table sorts.
+  var showSortIcon = function() {
+    $('th i').remove();
+    $('.sorting-asc').append('<i class="fa fa-sort-asc"></i>');
+    $('.sorting-desc').append('<i class="fa fa-sort-desc"></i>');
+  };
 
 });

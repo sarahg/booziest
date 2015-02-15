@@ -8,16 +8,21 @@ include('keys.inc');
 class Untapper
 {
 
-  private $user;
+  private $userPals;
   private $beers;
   private $table;
 
   public function __construct($username)
   {
-    // Given a username, look up their user info and beers.
+    // Given a username, look up their user's friend info and beers.
     $response = self::fetch_untappd_info($username);
-    $this->_user = $response['user'];
+    $this->_userPals = $response['userPals'];
     $this->_beers = $response['beers'];
+
+    // If there are homies, show homies.
+    if (!empty($this->_userPals)) {
+      $this->_pals = $this->render_pals($this->_userPals);
+    }
 
     // If they've got beers, show em in a table.
     if (!empty($this->_beers)) {
@@ -25,7 +30,7 @@ class Untapper
     }
 
     // Assemble the pieces and echo HTML.
-    $this->render($this->_user, $this->_table);
+    $this->render($username, $this->_pals, $this->_table);
   }
 
 
@@ -81,9 +86,9 @@ class Untapper
     $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
 
     $beers = $ut->get('/user/beers/' . $username . '?limit=50');
-    $user = $ut->get('/user/info/' . $username);
+    $userPals = $ut->get('/user/friends/' . $username);
 
-    $info = array('beers' => $beers, 'user' => $user);
+    $info = array('beers' => $beers, 'userPals' => $userPals);
 
     // @todo return different error if API limit hit (see header)
     // or maybe could it email me? that'd be slick
@@ -107,15 +112,11 @@ class Untapper
   protected function render_table($beers)
   {
     $filteredBeers = self::format_beers($beers);
-    $table_headers = $output = $icon = '';
-
     if (empty($filteredBeers)) {
-      $output = '<ul>
-          <li><a href="https://www.google.com/maps/search/bars+near+current+location">Go drinking</a>.</li>
-          <li><a href="/">Search again</a>.</li>
-        </ul>';
-      return $output;
+      return;
     }
+
+    $table_headers = $output = $icon = '';
 
     $columns = array(
       '' => '',
@@ -138,7 +139,8 @@ class Untapper
       $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a>'. $icon .'</th>';
     }
 
-    $output .= '<p>Showing most recent '. count($filteredBeers) .' beers. <!--<a href="#show-100">Show 100</a>.--></p>'; // @todo hookup "show 100"
+    $output .= '<p class="clearfix">Showing most recent '. count($filteredBeers) .' beers.';
+    // $output .= '<a href="#show-100">Show 100</a>./p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>';
     foreach ($filteredBeers as $beer) {
@@ -159,11 +161,31 @@ class Untapper
 
 
   /**
-   * @todo make a way to show the users friends and show their booziest beers.
+   * Return HTML for the User Pals box.
+   *
+   * @param $userPals
+   *    User friend object for the queried user.
+   *
+   * @return $output
+   *    String of HTML.
    */
-  protected function compare_pals()
+  protected function render_pals($userPals)
   {
+    if ($userPals->response->count == 0) {
+      return;
+    }
+    $output  = '<div id="user-pals" class="clearfix hidden">';
+    $output .= '<h4>Friends</h4>';
+    $output .= '<p>Click on a friend to compare your average ABV.</p>';
 
+    foreach ($userPals->response->items as $pal) {
+      $output .= '<div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"><a href="#">' . $pal->user->user_name . '</a></div>';
+    }
+    $output .= '</div>';
+
+    // @todo clicking on the friend name shows a page comparing your average ABV, or something?
+
+    return $output;
   }
 
 
@@ -177,18 +199,30 @@ class Untapper
    *
    * @return @void
    */
-  protected function render($user, $table)
+  protected function render($username, $userPals, $table)
   {
+
     $output = '';
-    if (!empty($user->response->user)) {
-      $output .= '<div class="user-photo" style="background-image: url('. $user->response->user->user_avatar .')"></div>';
-      $output .= '<h3 class="user">' . $user->response->user->user_name . '\'s' . ' booziest beers' . '</h3>';
+
+    if (!empty($table)) {
+
+      $output .= '<h3 class="user left">' . $username . '\'s' . ' booziest beers' . '</h3>';
+
+      if (!empty($userPals)) {
+        $output .= '<a id="show-pals" class="button small radius right">Compare to palz</a>';
+        $output .= $userPals;
+      }
+
+      $output .= $table;
+
     }
     else {
       $output .= '<h3 class="no-user">No beers found.</h3>';
+      $output .= '<ul>';
+      $output .= '<li><a href="https://www.google.com/maps/search/bars+near+current+location">Go drinking</a>.</li>';
+      $output .= '<li><a href="/">Search again</a>.</li>';
+      $output .= '</ul>';
     }
-
-    $output .= $table;
 
     echo $output;
   }
