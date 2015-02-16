@@ -21,12 +21,12 @@ class Untapper
 
     // If there are homies, show homies.
     if (!empty($this->_userPals)) {
-      $this->_pals = $this->render_pals($this->_userPals);
+      $this->_pals = $this->render_pals($username, $this->_userPals);
     }
 
     // If they've got beers, show em in a table.
     if (!empty($this->_beers)) {
-      $this->_table = $this->render_table($this->_beers);
+      $this->_table = $this->render_table($username, $this->_beers);
     }
 
     // Assemble the pieces and echo HTML.
@@ -103,13 +103,15 @@ class Untapper
   /**
    * Return HTML for the table.
    *
+   * @param $username
+   *    An untappd username
    * @param $beers
    *    List of beers from the API call.
    *
    * @return $output
    *    String of HTML.
    */
-  protected function render_table($beers)
+  protected function render_table($username, $beers)
   {
     $filteredBeers = self::format_beers($beers);
     if (empty($filteredBeers)) {
@@ -139,7 +141,7 @@ class Untapper
       $table_headers .= '<th class="'. $classes . '" data-sort="'. $dataType .'"><a href="#">'. $name .'</a>'. $icon .'</th>';
     }
 
-    $output .= '<p class="clearfix">Showing most recent '. count($filteredBeers) .' beers.';
+    $output .= '<h5 class="clearfix">Showing '. $username .'\'s most recent '. count($filteredBeers) .' beers.</h5>';
     // $output .= '<a href="#show-100">Show 100</a>./p>'; // @todo hookup "show 100"
     $output .= '<table id="beer-results">';
     $output .= '<thead>'. $table_headers .'</thead><tbody>';
@@ -163,30 +165,35 @@ class Untapper
   /**
    * Return HTML for the User Pals box.
    *
+   * @param $username
+   *   Object. The queried Untappd user's username, from the GET/POST.
    * @param $userPals
    *    User friend object for the queried user.
    *
    * @return $output
    *    String of HTML.
    */
-  protected function render_pals($userPals)
+  protected function render_pals($username, $userPals)
   {
     if ($userPals->response->count == 0) {
       return;
     }
+
     $output  = '<div id="user-pals" class="clearfix hidden">';
     $output .= '<h4>Friends</h4>';
-    $output .= '<p>Click on a friend to compare your average ABV.</p>';
+    $output .= '<p>Click on a friend to compare your booziest beers.</p>';
 
     $output .= '<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">';
+
     foreach ($userPals->response->items as $pal) {
-      $output .= '<li><div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"></div>';
-      $output .= '<a class="username" href="#">' . $pal->user->user_name . '</a></li>';
+      $compare_link = '/?compare=' . $username . '+' . $pal->user->user_name;
+      // @todo replace the default avatar with the logo
+      $output .= '<li><div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"><a href="'. $compare_link .'"></a></div>';
+      $output .= '<a class="username" href="'. $compare_link .'">' . $pal->user->user_name . '</a></li>';
     }
+
     $output .= '</ul>';
     $output .= '</div>';
-
-    // @todo clicking on the friend name shows a page comparing your average ABV, or something?
 
     return $output;
   }
@@ -195,8 +202,8 @@ class Untapper
   /**
    * Pull together all the components and echo the output.
    *
-   * @param $user
-   *   Object. The queried Untappd user.
+   * @param $username
+   *   Object. The queried Untappd user's username, from the GET/POST.
    * @param $table
    *   String of HTML for the main results table.
    *
@@ -212,7 +219,7 @@ class Untapper
       $output .= '<h3 class="user left">' . $username . '\'s' . ' booziest beers' . '</h3>';
 
       if (!empty($userPals)) {
-        $output .= '<a id="show-pals" class="button small radius right">Compare to friends <i class="fa fa-beer"></i></a>';
+        $output .= '<a id="show-pals" class="button small radius right">Compare to friends</a>';
         $output .= $userPals;
       }
 

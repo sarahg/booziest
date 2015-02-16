@@ -27,6 +27,9 @@ $(document).ready(function() {
           showSortIcon();
 
           $('#show-pals').click(function() {
+            $(this).text('Show friends');
+            $(this).toggleClass('open');
+            $('.open').text('Hide friends');
             $('#user-pals').slideToggle('slow');
           });
 

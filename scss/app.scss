@@ -15,8 +15,9 @@ h1 {
   margin-bottom: 0;
 }
 h2 {
-  font-size: 1.2em;
   color: $body-font-color;
+  float: right;
+  margin-right: 30px;
   padding-top: 0;
   @media #{$small-only} {
     font-size: 1em;
@@ -24,6 +25,11 @@ h2 {
   @media #{$large-up} {
     padding-top: 1.2em;
   }
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 700;
 }
 
 .panel {
@@ -61,24 +67,43 @@ li a,
 p a {
   font-weight: bold;
 }
-.user-photo {
-  background-repeat: no-repeat;
-  background-position: 50%;
-  border-radius: 50%;
-  width: 75px;
-  height: 75px;
-  display: inline-block;
-}
-li .username {
-  position: relative;
-  top: -35px;
-  left: 10px;
-}
-
 .fa {
   position: relative;
   left: 5px;
   top: -3px;
+}
+
+#query-results h5 {
+  color: $brown;
+  font-weight: 200;
+}
+
+a#show-pals {
+  width: 200px;
+}
+#user-pals {
+  border-bottom: 1px solid #f7f7f7;
+  padding: 1em 0;
+  margin: 2em 0;
+  .user-photo {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    display: inline-block;
+    a {
+      width: 75px;
+      height: 75px;
+      display: block;
+    }
+  }
+  a.username {
+    vertical-align: top;
+    position: relative;
+    top: 8px;
+    left: 12px;
+  }
 }
 
 #beer-results {

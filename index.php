@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booziest</title>
     <link rel="stylesheet" href="css/app.min.css" />
-    <link href='http://fonts.googleapis.com/css?family=Rubik+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700|Rubik+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css" />
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-touch-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-touch-icon-60x60.png">

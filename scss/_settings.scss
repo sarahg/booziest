@@ -117,6 +117,8 @@ $white       : #FFFFFF;
 // $jet         : #222222;
 // $black       : #000000;
 
+$brown: #6f5731;
+
 // We use these as default colors throughout
 $primary-color: #087648;
 $secondary-color: #084176;
@@ -209,8 +211,8 @@ $header-font-family: 'Rubik One', sans-serif;
 
 // We use these to control header font sizes
 $h1-font-size: rem-calc(50);
-// $h2-font-size: rem-calc(37);
-// $h3-font-size: rem-calc(27);
+$h2-font-size: rem-calc(22);
+$h3-font-size: rem-calc(30);
 // $h4-font-size: rem-calc(23);
 // $h5-font-size: rem-calc(18);
 // $h6-font-size: 1rem;
