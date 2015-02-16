@@ -178,9 +178,12 @@ class Untapper
     $output .= '<h4>Friends</h4>';
     $output .= '<p>Click on a friend to compare your average ABV.</p>';
 
+    $output .= '<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">';
     foreach ($userPals->response->items as $pal) {
-      $output .= '<div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"><a href="#">' . $pal->user->user_name . '</a></div>';
+      $output .= '<li><div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"></div>';
+      $output .= '<a class="username" href="#">' . $pal->user->user_name . '</a></li>';
     }
+    $output .= '</ul>';
     $output .= '</div>';
 
     // @todo clicking on the friend name shows a page comparing your average ABV, or something?
@@ -209,7 +212,7 @@ class Untapper
       $output .= '<h3 class="user left">' . $username . '\'s' . ' booziest beers' . '</h3>';
 
       if (!empty($userPals)) {
-        $output .= '<a id="show-pals" class="button small radius right">Compare to palz</a>';
+        $output .= '<a id="show-pals" class="button small radius right">Compare to friends <i class="fa fa-beer"></i></a>';
         $output .= $userPals;
       }
 
