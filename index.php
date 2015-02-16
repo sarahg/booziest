@@ -52,8 +52,8 @@
       	</div>
         <p>
           <a href="http://untappd.com"><img id="untappd-logo" height="19" width="80" src="img/pbu_40_black.png" alt="Powered by Untappd"></a>
-          <small class="copyright">Copyright &copy; <?php echo date('Y'); ?> <a href="http://sarahgerman.com">Sarah German</a>&nbsp;
-          <span class="github">View source code on <a href="https://github.com/sarahg/booziest">Github</a>.</span></small>
+          <small class="copyright">Copyright &copy; <?php echo date('Y'); ?> <a href="http://sarahgerman.com">Sarah German</a>.&nbsp;
+          <span class="github">View source code on <a href="https://github.com/sarahg/booziest">Github.<i class="fa fa-github"></i></a></span></small>
         </p>
         <div id="dude-wrapper" class="right"></div>
       </div>
