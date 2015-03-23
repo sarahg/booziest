@@ -14,18 +14,13 @@ class Booziest
     $this->_userPals = $response['userPals'];
     $this->_beers = $response['beers'];
 
-    // If there are homies, show homies.
-    if (!empty($this->_userPals)) {
-      $this->_pals = $this->render_pals($username, $this->_userPals);
-    }
-
     // If they've got beers, show em in a table.
     if (!empty($this->_beers)) {
       $this->_table = $this->render_table($username, $this->_beers);
     }
 
     // Assemble the pieces and echo HTML.
-    $this->render($username, $this->_pals, $this->_table);
+    $this->render($username, $this->_table);
   }
 
 
@@ -156,44 +151,6 @@ class Booziest
     return $output;
   }
 
-
-  /**
-   * Return HTML for the User Pals box.
-   *
-   * @param $username
-   *   Object. The queried Untappd user's username, from the GET/POST.
-   * @param $userPals
-   *    User friend object for the queried user.
-   *
-   * @return $output
-   *    String of HTML.
-   */
-  protected function render_pals($username, $userPals)
-  {
-    if ($userPals->response->count == 0) {
-      return;
-    }
-
-    $output  = '<div id="user-pals" class="clearfix hidden">';
-    $output .= '<h4>Friends</h4>';
-    $output .= '<p>Click on a friend to compare your booziest beers.</p>';
-
-    $output .= '<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-4">';
-
-    foreach ($userPals->response->items as $pal) {
-      $compare_link = '/?compare=' . $username . '+' . $pal->user->user_name;
-      // @todo replace the default avatar with the logo
-      $output .= '<li><div class="user-photo" style="background-image: url(' . $pal->user->user_avatar .')"><a href="'. $compare_link .'"></a></div>';
-      $output .= '<a class="username" href="'. $compare_link .'">' . $pal->user->user_name . '</a></li>';
-    }
-
-    $output .= '</ul>';
-    $output .= '</div>';
-
-    return $output;
-  }
-
-
   /**
    * Pull together all the components and echo the output.
    *
@@ -204,7 +161,7 @@ class Booziest
    *
    * @return @void
    */
-  protected function render($username, $userPals, $table)
+  protected function render($username, $table)
   {
 
     $output = '';
@@ -212,12 +169,6 @@ class Booziest
     if (!empty($table)) {
 
       $output .= '<h3 class="user left">' . $username . '\'s' . ' booziest beers' . '</h3>';
-
-      if (!empty($userPals)) {
-        $output .= '<a id="show-pals" class="button small radius right">Compare to friends</a>';
-        $output .= $userPals;
-      }
-
       $output .= $table;
 
     }
