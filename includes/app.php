@@ -82,7 +82,7 @@ class Untapper
    */
   protected function fetch_untappd_info($username)
   {
-    include('UntappdPHP/lib/untappdPHP.php');
+    include('../vendor/UntappdPHP/lib/untappdPHP.php');
     $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
 
     $beers = $ut->get('/user/beers/' . $username . '?limit=50');
