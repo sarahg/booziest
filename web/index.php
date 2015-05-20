@@ -20,17 +20,27 @@ $app['debug'] = true;
 
 /** end dev only **/
 
+
 // Register the template path.
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views'
+  'twig.path' => __DIR__ . '/views'
 ));
 
-// Controllers.
+
+// Front page.
 $app->get('/', function () use ($app) {
   return $app['twig']->render('form.html.twig', array('username' => $username));
 });
+
+
+// User page.
 $app->get('/{username}', function ($username) use ($app) {
-  return $app['twig']->render('user.html.twig', array('username' => $username));
+
+  // @todo this isn't the right way to load this.
+  include( __DIR__.'/../app/Controller/UserController.php');
+  $user = new User($username);
+
+  return $app['twig']->render('user.html.twig', array('user' => $user));
 });
 
 $app->run();
