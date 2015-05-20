@@ -11,7 +11,7 @@ module.exports = function(grunt) {
           outputStyle: 'compressed'
         },
         files: {
-          'css/app.css': 'scss/app.scss'
+          'css/app.css': 'web/scss/app.scss'
         }
       }
     },
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       grunt: { files: ['Gruntfile.js'] },
 
       sass: {
-        files: 'scss/**/*.scss',
+        files: 'web/scss/**/*.scss',
         tasks: ['sass']
       }
     },
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          'css/app.min.css': ['css/app.css']
+          'web/css/app.min.css': ['web/css/app.css']
         }
       }
     },
@@ -36,12 +36,12 @@ module.exports = function(grunt) {
     uglify: {
       target: {
         files: {
-          'js/app.min.js': [
+          'web/js/app.min.js': [
             'bower_components/modernizr/modernizr.js',
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/foundation/js/foundation.min.js',
-            'js/vendor/stupidtable.min.js',
-            'js/app.js'
+            'web/js/vendor/stupidtable.min.js',
+            'web/js/app.js'
           ]
         }
       }
