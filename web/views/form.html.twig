@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+
+<div class="large-5 medium-5 columns search-form">
+  <form id="search-user">
+    <input class="left" id="username" type="text" placeholder="{{ username|default('Enter your Untappd username') }}">
+    <input type="submit" class="right small round button" value="Go">
+  </form>
+</div>
+
+{% endblock body %}
