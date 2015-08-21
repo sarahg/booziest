@@ -1,10 +1,8 @@
 <?php
 
-class User
+class UserBeerList
 {
 
-
-  private $userPals;
   private $beers;
   private $table;
 
@@ -12,19 +10,19 @@ class User
   {
     include( __DIR__.'/../../includes/keys.inc');
 
-    // Given a username, look up their user's friend info and beers.
+    // Look up the user's beers.
     $response = self::fetch_untappd_info($username);
-    $this->_userPals = $response['userPals'];
     $this->_beers = $response['beers'];
 
-    // If they've got beers, show em in a table.
+    // If they've got beers, show results in a table.
     if (!empty($this->_beers)) {
       $this->_table = $this->render_table($username, $this->_beers);
     }
 
-    // Assemble the pieces and echo HTML.
+    // Assemble the pieces.
     $this->render($username, $this->_table);
   }
+
 
 
   /**
@@ -79,9 +77,9 @@ class User
     $ut = new UntappdPHP(CLIENT_ID, CLIENT_SECRET, BASE_URL);
 
     $beers = $ut->get('/user/beers/' . $username . '?limit=50');
-    $userPals = $ut->get('/user/friends/' . $username);
+    //$userPals = $ut->get('/user/friends/' . $username);
 
-    $info = array('beers' => $beers, 'userPals' => $userPals);
+    $info = array('beers' => $beers/*, 'userPals' => $userPals*/);
 
     // @todo return different error if API limit hit (see header)
     // or maybe could it email me? that'd be slick
@@ -104,6 +102,7 @@ class User
    * @return $output
    *    String of HTML.
    */
+  // @todo this should be in a Twig template
   protected function render_table($username, $beers)
   {
     $filteredBeers = self::format_beers($beers);
@@ -164,6 +163,7 @@ class User
    *
    * @return @void
    */
+  // @todo this should be in a Twig template
   protected function render($username, $table)
   {
 
@@ -183,7 +183,7 @@ class User
       $output .= '</ul>';
     }
 
-    echo $output;
+    return $output;
   }
 
 }
