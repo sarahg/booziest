@@ -3,9 +3,9 @@
 ## About
 This is a PHP-based web app that hooks into the Untappd API and allows you to sort Untappd checkin data by ABV, among other things.
 
-## Roadmap
-- Add social sharing.
-- Add functionality for comparing your results to other users' results.
+## Archived!
+This was a fun lil project, but Untappd now shows this data under your "Beer History" on the website (you can sort that by ABV). This is no longer maintained and probably no longer actually works. I also relinquished the booziest.beer domain name, even though it was awesome, because it was going to cost too much to renew. :) 
+
 
 ## Thanks
 + [Untappd](http://untappd.com), your API is fun. And [this guy Greg](https://github.com/gregavola/UntappdPHP) who made a nice PHP library for connecting to Untappd.
